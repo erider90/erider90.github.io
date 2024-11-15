@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <!-- BULMA CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    
+    <!-- PYSCRIPT -->
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <py-env></py-env>
+
+  </head>
+  <body>
+
+    <!-- UI -->
+    <div id="div1" class="container">
+        <div class="section">
+            <h4 class="title is-4">
+                Welcome to ROCK-PAPER-SCISSOR game, Come and try your luck!
+            </h4>
+
+            <br>
+            <input  id="userInput" 
+                    type="text" 
+                    class="input is-info" 
+                    placeholder="have a guess"></input>
+            <br>
+            
+            <label id="labelMessage" class="tag">Enter r for rock, p for paper and s for scissor:</label>
+
+            <br>
+
+            <button  id="submit-guess-btn"
+                        class="button is-primary"
+                        type="submit" 
+                        pys-onClick="scissorGuess">Make A Guess</button>
+        </div>
+        <hr>
+        <div class="section">
+            <pre id=log></pre>
+        </div>
+    </div>
+
+<py-script> 
+import random
+
+gameAttribute = ['rock','paper','scissor']
+
+count=0
+yourChoice=0
+comChoice=0
+userElement = document.getElementById('userInput')
+logElement = document.getElementById('log')
+
+def scissorGuess(*args, **kwargs):
+    global count, yourChoice, comChoice, userElement, logElement
+    if count < 5:
+        count += 1
+        random_choice = (random.choices(gameAttribute))
+        computerMove = random_choice[0]
+        yourMove = userElement.value.strip()
+
+        if yourMove == 'r':
+            yourMove = 'rock'
+        elif yourMove == 'p':
+            yourMove = 'paper'
+        elif yourMove == 's':
+            yourMove ='scissor'
+        else:
+            logElement.innerHTML += "{}. Choose between the given choice only!\n".format(yourMove)
+
+        logElement.innerHTML += 'computer move: {}\n'.format(computerMove)
+        logElement.innerHTML += "Your move: {}\n".format(yourMove)
+        if yourMove == computerMove:
+            logElement.innerHTML += "It's a tie!\n"
+        elif yourMove == 'rock' and computerMove == 'paper':
+            comChoice += 1
+            logElement.innerHTML += 'You lose!\n'
+        elif yourMove == 'rock' and computerMove == 'scissor':
+            yourChoice += 1
+            logElement.innerHTML +='You Win!\n'
+        elif yourMove == 'paper' and computerMove == 'rock':
+            yourChoice += 1
+            logElement.innerHTML +='You Win!\n'
+        elif yourMove == 'paper' and computerMove == 'scissor':
+            comChoice += 1
+            logElement.innerHTML +='You lose!\n'
+        elif yourMove == 'scissor' and computerMove == 'paper':
+            yourChoice += 1
+            logElement.innerHTML +='you Win!\n'
+        elif yourMove == 'scissor' and computerMove == 'rock':
+            comChoice += 1
+            logElement.innerHTML +='You lose!\n'
+        else:
+            logElement.innerHTML += 'Invalid choice made!, choose between r,s,p only \n'
+
+    if yourChoice > comChoice:
+        logElement.innerHTML +='Congratulations! You have won the game\n'
+    elif comChoice > yourChoice:
+        logElement.innerHTML +='You have lost the game.Better luck next time!\n'
+    elif yourChoice == comChoice:
+        logElement.innerHTML +='Tough Competition! It is a tie\n'
+</py-script>
+</body>
+</html>
+Out:
+
+Screenshot
+
+Share
+Improve this answer
+Follow
+answered Jul 9, 2022 at 21:41
